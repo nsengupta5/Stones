@@ -9,18 +9,24 @@ import java.util.ArrayList;
 public class Game {
     private ArrayList<Player> players;
     private int heap;
+    private int max_range;
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+    public static final String ANSI_RESET = "\u001B[0m";
 
     //Game constructor
-    public Game() {
+    public Game(int maxRange) {
         players = new ArrayList<>();
+        max_range = maxRange;
         //Heap of stones initialized as random number between 4 & 30
-        heap = (int)(Math.random() * 27) + 4;
+        heap = (int)(Math.random() * (max_range * 10 - max_range)) + (max_range + 1);
     }
 
     //Checks valid moves and plays valid move
     public boolean playTurn(Player p, int stones) {
         //Checks if input within range
-        if (stones > 3 || stones < 0) {
+        if (stones > max_range || stones < 0) {
             return false;
         }
 
@@ -44,7 +50,7 @@ public class Game {
 
     //Generates new heap between 4 & 30 stones
     public void generateNewHeap() {
-        heap = (int)(Math.random() * 27) + 4;
+        heap = (int)(Math.random() * (max_range * 10 - max_range)) + (max_range + 1);
     }
 
     //Prints player and score
@@ -68,6 +74,14 @@ public class Game {
         return "* Current # of stones in heap: " + heap + " *\n";
     }
 
+    public void setMaxRange(int newRange) {
+        max_range = newRange;
+    }
+
+    public int getMaxRange() {
+        return max_range;
+    }
+
     //Prints graphical representation of heap
     public void printHeap() {
         int row = (int)(Math.sqrt(heap)) + 1;
@@ -87,7 +101,22 @@ public class Game {
                     j = col;
                 }
                 else {
-                    System.out.print("O");
+                    int randColor = (int)(Math.random() * 3);
+                    switch (randColor) {
+                        case 0:
+                            System.out.print(ANSI_BLACK + "O" + ANSI_RESET);
+                            break;
+                        case 1:
+                            System.out.print(ANSI_RED + "O" + ANSI_RESET);
+                            break;
+                        case 2:
+                            System.out.print(ANSI_WHITE + "O" + ANSI_RESET);
+                            break;
+                        default:
+                            System.out.println("O");
+                            break;
+                    }
+
                     heapCount--;
                 }
             }

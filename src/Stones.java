@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 public class Stones {
     private static Scanner sc = new Scanner(System.in);
     private static Game game;
-    private static boolean endGame = false;
     private static boolean endStones = false;
     private static Player p1;
     private static AIPlayer p2;
@@ -16,7 +15,7 @@ public class Stones {
     public static void main(String[] args) throws InterruptedException {
         System.out.println("STONES");
         System.out.println("____________________________________________________________\n");
-        System.out.println("HOW TO PLAY: Remove 1, 2 or 3 stones from the heap. Whoever removes all the stones from the heap first wins!\n\n");
+        System.out.println("Removes all the stones from the heap first to win!\n");
 
         //Initializes the game
         initialize();
@@ -41,10 +40,11 @@ public class Stones {
                 else {
                     System.out.println("It's Omno's Turn!");
                     System.out.println("Omno is thinking...");
-                    //Delay to simulate AI thinking
-                    TimeUnit.SECONDS.sleep(3);
+                    //Random delay to simulate AI thinking
+                    int thinkTime = (int)(Math.random() * 5) + 2;
+                    TimeUnit.SECONDS.sleep(thinkTime);
                     //Finds best play for AI
-                    int bestPlay = p2.findBestPlay(game.getHeap());
+                    int bestPlay = p2.findBestPlay(game.getHeap(), game.getMaxRange());
                     //Plays AI's turn
                     game.playTurn(p2, bestPlay);
                     //Checks if AI is winner
@@ -62,16 +62,33 @@ public class Stones {
         //Adds player one to game
         System.out.print("Player 1: ");
         String p1Name = sc.nextLine();
-        game = new Game();
+        System.out.println("Player 2 is Omno\n");
+
+        //Sets maximum number of stones that can be taken from the heap
+        //Range between 2 & 99
+        int maxRange = 0;
+        boolean validRange = false;
+        while (!validRange) {
+            System.out.print("What is the number of stones you can take from the heap? (2-99): ");
+            maxRange = sc.nextInt();
+            if (maxRange <= 1 || maxRange >= 100) {
+                System.out.println("Not within range. Please try again.");
+            }
+            else {
+                validRange = true;
+            }
+        }
+
+        //Initializes game
+        game = new Game(maxRange);
         p1 = new Player(p1Name);
         game.addPlayer(p1);
 
-        System.out.println("Player 2 is Omno\n");
         boolean validDifficulty = false;
         while (!validDifficulty) {
             //Sets difficulty level for AI
             System.out.print("Omno's Difficulty Level (EASY/MID/HARD): ");
-            String difficulty = sc.nextLine();
+            String difficulty = sc.next();
             switch (difficulty.toUpperCase()) {
                 case "EASY":
                     p2 = new AIPlayer(0.3);

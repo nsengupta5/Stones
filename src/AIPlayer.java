@@ -15,15 +15,15 @@ public class AIPlayer extends Player{
     }
 
     //Finds the best play of AI
-    public int findBestPlay(int heap) {
+    public int findBestPlay(int heap, int maxRange) {
         //Returns whatever left from heap if heap is less than 4
-        if (heap < 4) {
+        if (heap < (maxRange + 1)) {
             return heap;
         }
 
         //Returns set number if heap divisible by 4
-        else if (heap % 4 == 0) {
-            return (heap % 3) + 1;
+        else if (heap % (maxRange + 1) == 0) {
+            return (heap % (maxRange)) + 1;
         }
 
         //Returns best play based on weight
@@ -31,11 +31,11 @@ public class AIPlayer extends Player{
             double rand = Math.random();
             //Best play defined as mod 4; chosen based on weight
             if (rand < weight) {
-                return heap % 4;
+                return heap % (maxRange + 1);
             }
             //Random play
             else {
-                return (int)(Math.random() * 3) + 1;
+                return (int)(Math.random() * maxRange) + 1;
             }
         }
     }
