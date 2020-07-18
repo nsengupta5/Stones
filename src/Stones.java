@@ -33,12 +33,8 @@ public class Stones {
                     //Plays player one's turn
                     turn(p1);
                     //Checks if player one is winner
-                    if (checkWinner(p1)) {
-                        p1.incrementScore();
-                        game.printPlayerAndScore();
-                    }
-                    //Changes player's turn
-                    else {
+                    if (!checkWinner(p1)) {
+                        //Changes player's turn
                         playerTurn++;
                     }
                 }
@@ -52,11 +48,7 @@ public class Stones {
                     //Plays AI's turn
                     game.playTurn(p2, bestPlay);
                     //Checks if AI is winner
-                    if (checkWinner(p2)) {
-                        p2.incrementScore();
-                        game.printPlayerAndScore();
-                    }
-                    else {
+                    if (!checkWinner(p2)) {
                         playerTurn++;
                     }
                 }
@@ -125,6 +117,8 @@ public class Stones {
         if (game.getHeap() == 0) {
             System.out.println(p.getName() + " wins!\n");
             //Checks if player wants to play again
+            p.incrementScore();
+            game.printPlayerAndScore();
             checkIfPlayAgain();
             return true;
         }
