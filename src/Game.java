@@ -10,8 +10,8 @@ public class Game {
     private ArrayList<Player> players;
     private int heap;
     private int max_range;
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
     public static final String ANSI_RESET = "\u001B[0m";
 
@@ -104,10 +104,10 @@ public class Game {
                     int randColor = (int)(Math.random() * 3);
                     switch (randColor) {
                         case 0:
-                            System.out.print(ANSI_PURPLE + "O" + ANSI_RESET);
+                            System.out.print(ANSI_CYAN + "O" + ANSI_RESET);
                             break;
                         case 1:
-                            System.out.print(ANSI_RED + "O" + ANSI_RESET);
+                            System.out.print(ANSI_BLUE + "O" + ANSI_RESET);
                             break;
                         case 2:
                             System.out.print(ANSI_WHITE + "O" + ANSI_RESET);
